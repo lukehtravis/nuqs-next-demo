@@ -17,9 +17,8 @@ export default async function Home({
 
   return (
     <main>
-      <h1>NuQS v2 with Next.js 15 and React 19 Demo</h1>
-
       <div className="explanation highlighted-box">
+        <h1>NuQS v2 with Next.js 15 and React 19 Demo</h1>
         <h2>Component: Page.tsx</h2>
 
         <p>
@@ -55,21 +54,9 @@ export default async function Home({
         componentName="Pure Server Component"
       />
 
-      {/* Hybrid component - server rendered first, then hydrated */}
-      <div className="container">
-        <h2>Page Component (Hybrid)</h2>
-        <SSRIndicator componentName="Home Page" />
-
-        <p>
-          This component initially renders on the server, but contains client
-          components, so it gets hydrated. The URL parameters data was generated
-          on the server at {serverTimestamp}.
-        </p>
-      </div>
-
       {/* SearchParamsDisplay component gets search params from the server */}
       <div className="params-container">
-        <h2>Current URL Parameters</h2>
+        <h2>Current URL Parameters (Hybrid Component - inside page.tsx)</h2>
         <SSRIndicator componentName="SearchParamsDisplay" />
 
         <pre>{JSON.stringify(resolvedParams, null, 2)}</pre>
@@ -89,12 +76,6 @@ export default async function Home({
 
       {/* Add pure client component for comparison */}
       <PureClientComponent />
-
-      {/* Another pure server component at the bottom */}
-      <PureServerComponent
-        timestamp={serverTimestamp}
-        componentName="Another Pure Server Component"
-      />
     </main>
   );
 }

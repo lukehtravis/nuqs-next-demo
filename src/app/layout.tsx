@@ -28,7 +28,7 @@ export default function RootLayout({
       <body>
         <div className="header-note">
           <strong>NuQS v2 with Next.js 15 and React 19 Demo</strong> | Testing
-          Server-Side Rendering Compatibility
+          Server-Side Rendering Compatibility (This is the layout.tsx file)
         </div>
         <NuqsAdapter>{children}</NuqsAdapter>
       </body>

@@ -11,7 +11,7 @@ export default function ClientComponent() {
 
   return (
     <div className="container">
-      <h2>Client-Side Parameter Access</h2>
+      <h2>Display URL Parameters (ClientComponent.tsx)</h2>
       <SSRIndicator componentName="ClientComponent" />
 
       <div>

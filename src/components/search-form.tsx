@@ -22,7 +22,7 @@ export default function SearchForm() {
 
   return (
     <div className="form-container">
-      <h2>Update URL Parameters</h2>
+      <h2>Update URL Parameters (SearchForm.tsx)</h2>
       <SSRIndicator componentName="SearchForm" />
 
       <form onSubmit={handleSubmit}>

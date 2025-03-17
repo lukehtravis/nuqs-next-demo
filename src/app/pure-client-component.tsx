@@ -12,7 +12,7 @@ export default function PureClientComponent() {
 
   return (
     <div className="container">
-      <h2>Pure Client Component</h2>
+      <h2>Pure Client Component (PureClientComponent.tsx)</h2>
       <div className="indicator client-rendered">
         This component was rendered entirely on the client
         {timestamp ? ` at ${timestamp}` : ""}
