@@ -3,23 +3,35 @@
 import { useEffect, useState } from "react";
 
 export function SSRIndicator({ componentName }: { componentName: string }) {
-  // Initialize as "server-rendered" but will switch to "client-rendered"
-  // after hydration if the component is client-rendered
+  // Use a ref to track if we're in the browser
   const [isClient, setIsClient] = useState(false);
+  const [hydrationTime, setHydrationTime] = useState<string | null>(null);
 
   useEffect(() => {
-    // This effect only runs on the client, so if it runs, we know
-    // this component has been hydrated on the client
+    // This effect runs after hydration on the client only
+    const now = new Date();
+    setHydrationTime(now.toISOString().split("T")[1].split(".")[0]);
     setIsClient(true);
   }, []);
 
+  // Only show the hydrated state if we're on the client
   return (
-    <div
-      className={`indicator ${
-        isClient ? "client-rendered" : "server-rendered"
-      }`}
-    >
-      {componentName} was {isClient ? "client" : "server"}-rendered
+    <div>
+      <div
+        className={`indicator ${
+          !isClient ? "server-rendered" : "client-rendered"
+        }`}
+      >
+        {componentName}{" "}
+        {!isClient
+          ? "was initially server-rendered"
+          : `was server-rendered then hydrated on client at ${hydrationTime}`}
+      </div>
+      <p className="render-explanation">
+        {!isClient
+          ? "If you see this text with a green background, you're seeing the server-rendered HTML before React hydration."
+          : "The red background indicates that React has hydrated this component on the client, but the initial HTML came from the server."}
+      </p>
     </div>
   );
 }

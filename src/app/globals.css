@@ -5,6 +5,15 @@
   --client-color: rgb(220, 80, 50);
 }
 
+.header-note {
+  background-color: #333;
+  color: white;
+  text-align: center;
+  padding: 8px 0;
+  margin-bottom: 20px;
+  font-size: 0.9rem;
+}
+
 body {
   color: rgb(var(--foreground-rgb));
   background: rgb(var(--background-rgb));
@@ -80,4 +89,31 @@ button:hover {
   background-color: #f7f7f7;
   border-radius: 8px;
   font-size: 0.9rem;
+}
+
+.highlighted-box {
+  border: 2px solid #0070f3;
+  background-color: #f0f7ff;
+  padding: 20px;
+}
+
+.render-explanation {
+  font-size: 0.85rem;
+  font-style: italic;
+  margin-top: 5px;
+  color: #555;
+}
+
+/* Animation to highlight the hydration process */
+@keyframes flash-hydration {
+  0% {
+    background-color: var(--server-color);
+  }
+  100% {
+    background-color: var(--client-color);
+  }
+}
+
+.hydration-animation {
+  animation: flash-hydration 2s ease-in-out;
 }

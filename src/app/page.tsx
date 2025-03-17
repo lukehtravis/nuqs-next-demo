@@ -1,7 +1,8 @@
-import SearchParamsDisplay from "./search-params-display";
 import SearchForm from "../components/search-form";
 import ClientComponent from "../components/client-component";
 import { SSRIndicator } from "./ssr-indicator";
+import PureServerComponent from "./pure-server-component";
+import PureClientComponent from "./pure-client-component";
 
 export default async function Home({
   searchParams,
@@ -11,38 +12,89 @@ export default async function Home({
   // In Next.js 15, we need to await searchParams before using it
   const resolvedParams = await searchParams;
 
+  // Generate a timestamp to show when server rendering occurred
+  const serverTimestamp = new Date().toISOString().split("T")[1].split(".")[0];
+
   return (
     <main>
       <h1>NuQS v2 with Next.js 15 and React 19 Demo</h1>
 
-      <div className="explanation">
+      <div className="explanation highlighted-box">
+        <h2>Component: Page.tsx</h2>
+
         <p>
-          This demo proves that wrapping your app in the NuQS adapter does not
-          prevent server-side rendering. The green indicators show components
-          rendered on the server, while the red indicators show client-rendered
-          components.
+          <strong>What to observe:</strong>
         </p>
+        <ul>
+          <li>
+            <strong>Green indicators</strong> show server-rendered content
+          </li>
+          <li>
+            <strong>Red indicators</strong> show content that was initially
+            server-rendered but then hydrated on the client
+          </li>
+          <li>
+            The "Pure Server Component" will{" "}
+            <strong>always remain green</strong> because it's never hydrated
+          </li>
+          <li>
+            Components with "use client" will flash green briefly before turning
+            red during hydration
+          </li>
+        </ul>
         <p>
-          Try updating the URL parameters using the form below and observe that
-          the SearchParamsDisplay component remains server-rendered, while only
-          the components explicitly marked with 'use client' are
-          client-rendered.
+          Most importantly, even with the NuQS provider wrapping the entire
+          application, components that don't need client-side interactivity
+          remain as pure server components.
         </p>
       </div>
 
+      {/* Pure server component - will never be hydrated */}
+      <PureServerComponent
+        timestamp={serverTimestamp}
+        componentName="Pure Server Component"
+      />
+
+      {/* Hybrid component - server rendered first, then hydrated */}
       <div className="container">
-        <h2>Page Component</h2>
+        <h2>Page Component (Hybrid)</h2>
         <SSRIndicator componentName="Home Page" />
 
         <p>
-          This is the main page component. It receives the searchParams object
-          from Next.js and passes it down to child components.
+          This component initially renders on the server, but contains client
+          components, so it gets hydrated. The URL parameters data was generated
+          on the server at {serverTimestamp}.
         </p>
       </div>
 
-      <SearchParamsDisplay searchParams={resolvedParams} />
+      {/* SearchParamsDisplay component gets search params from the server */}
+      <div className="params-container">
+        <h2>Current URL Parameters</h2>
+        <SSRIndicator componentName="SearchParamsDisplay" />
+
+        <pre>{JSON.stringify(resolvedParams, null, 2)}</pre>
+
+        <div className="explanation">
+          <p>
+            <strong>Note:</strong> These parameters were processed on the server
+            at {serverTimestamp}, proving that even with the NuQS adapter,
+            server-side data fetching works correctly.
+          </p>
+        </div>
+      </div>
+
+      {/* These are client components */}
       <SearchForm />
       <ClientComponent />
+
+      {/* Add pure client component for comparison */}
+      <PureClientComponent />
+
+      {/* Another pure server component at the bottom */}
+      <PureServerComponent
+        timestamp={serverTimestamp}
+        componentName="Another Pure Server Component"
+      />
     </main>
   );
 }
