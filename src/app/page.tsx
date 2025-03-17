@@ -54,25 +54,10 @@ export default async function Home({
         componentName="Pure Server Component"
       />
 
-      {/* SearchParamsDisplay component gets search params from the server */}
-      <div className="params-container">
-        <h2>Current URL Parameters (Hybrid Component - inside page.tsx)</h2>
-        <SSRIndicator componentName="SearchParamsDisplay" />
-
-        <pre>{JSON.stringify(resolvedParams, null, 2)}</pre>
-
-        <div className="explanation">
-          <p>
-            <strong>Note:</strong> These parameters were processed on the server
-            at {serverTimestamp}, proving that even with the NuQS adapter,
-            server-side data fetching works correctly.
-          </p>
-        </div>
-      </div>
+      <ClientComponent />
 
       {/* These are client components */}
       <SearchForm />
-      <ClientComponent />
 
       {/* Add pure client component for comparison */}
       <PureClientComponent />
