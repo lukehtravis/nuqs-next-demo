@@ -1,19 +1,21 @@
 // This component is intentionally not using 'use client' so it will be a server component
 import { SSRIndicator } from "./ssr-indicator";
 
-// This is a server component that will read the searchParams
-// through its props, not from the URL
-export default function SearchParamsDisplay({
+// Update to handle Promise-based searchParams in Next.js 15
+export default async function SearchParamsDisplay({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
+  // Await the searchParams promise
+  const resolvedParams = await searchParams;
+
   return (
     <div className="params-container">
       <h2>Current URL Parameters (from Server)</h2>
       <SSRIndicator componentName="SearchParamsDisplay" />
 
-      <pre>{JSON.stringify(searchParams, null, 2)}</pre>
+      <pre>{JSON.stringify(resolvedParams, null, 2)}</pre>
     </div>
   );
 }

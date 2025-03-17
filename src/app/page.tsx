@@ -7,7 +7,7 @@ import PureClientComponent from "./pure-client-component";
 export default async function Home({
   searchParams,
 }: {
-  searchParams: { [key: string]: string | string[] | undefined };
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 }) {
   // In Next.js 15, we need to await searchParams before using it
   const resolvedParams = await searchParams;
